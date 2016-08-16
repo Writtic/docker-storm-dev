@@ -22,7 +22,7 @@ ADD conf/storm.yaml.template $STORM_HOME/conf/storm.yaml.template
 
 # Add scripts required to run storm daemons under supervision
 ADD entrypoint.sh /home/storm/entrypoint.sh
-ADD storm-daemon.conf /home/storm/storm-daemon.conf
+ADD supervisor/storm-daemon.conf /home/storm/storm-daemon.conf
 
 RUN chown -R storm:storm $STORM_HOME && chmod u+x /home/storm/entrypoint.sh
 
