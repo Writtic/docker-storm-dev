@@ -13,30 +13,19 @@ Installation
 Usage
 -----
 **Pre-Requisites:** You must have a running zookeeper instance in order to start any of the storm daemons.
-```
-docker run -p 2181:2181 -p 2888:2888 -p 3888:3888 -h zookeeper -d enow/zookeeper;
-```
+- ```docker run -p 2181:2181 -p 2888:2888 -p 3888:3888 -h zookeeper -d enow/zookeeper;```
 
 The image contains an **ENTRYPOINT** for running one container per storm daemon as follow:
 
-```docker run [OPTIONS] --link zookeeper:zk -d enow/storm-dev --daemon (nimbus, drpc, supevisor, ui, logviewer)```  
+- ```docker run [OPTIONS] --link zookeeper:zk -d enow/storm-dev --daemon (nimbus, drpc, supevisor, ui, logviewer)```  
 
 For instance to run Nimbus :
 
-```
-docker run \  
-      --name="storm-nimbus" -h nimbus \  
-      --expose 6627 --expose 3772 --expose 3773 \  
-      --link zookeeper:zk \  
-      -d enow/storm-dev \  
-      --daemon nimbus
-```
+- ```docker run --name="storm-nimbus" -h nimbus --expose 6627 --expose 3772 --expose 3773 --link zookeeper:zk -d enow/storm-dev --daemon nimbus```
 
 You can override storm default configuration by passing environment variables to the running container as follows :
 
-```
- --env "CONFIG_WORKER_CHILDOPTS=-Xmx512m"
-```
+- ``` --env "CONFIG_WORKER_CHILDOPTS=-Xmx512m"```
 
 `CONFIG_WORKER_CHILDOPTS` will be add to storm.yaml as `worker.childopts`.
 
@@ -77,11 +66,7 @@ How to submit a topology
 ------------------------
 Without storm installed on your machine:
 
-```
-docker run --rm --entrypoint storm  \  
-       -v <HOST_TOPOLOGY_TARGET_DIR>:/home/storm enow/storm-dev \   
-       -c nimbus.host=`docker inspect --format='{{.NetworkSettings.IPAddress}}' storm-nimbus` jar <TOPOLOGY_JAR> <TOPOLOGY_ARGS>
-```
+- ```docker run --rm --entrypoint storm -v <HOST_TOPOLOGY_TARGET_DIR>:/home/storm enow/storm-dev -c nimbus.host=`docker inspect --format='{{.NetworkSettings.IPAddress}}' storm-nimbus` jar <TOPOLOGY_JAR> <TOPOLOGY_ARGS>```
 
 You just edit ```<HOST_TOPOLOGY_TARGET_DIR>```, ```<TOPOLOGY_JAR>```, ```<TOPOLOGY_ARGS>``` sectors.
 
