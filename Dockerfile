@@ -15,10 +15,6 @@ RUN wget -q -O - http://mirror.apache-kr.org/storm/apache-storm-$STORM_VERSION/a
     mv $STORM_HOME-$STORM_VERSION $STORM_HOME && \
     rm -rf apache-storm-$STORM_VERSION.tar.gz
 
-# Create storm group and user
-RUN groupadd storm; \
-    useradd --gid storm --home-dir /home/storm --create-home --shell /bin/bash storm; \
-
 RUN mkdir /var/log/storm ; chown -R storm:storm /var/log/storm ; \
     ln -s /var/log/storm /home/storm/log; \
     ln -s $STORM_HOME/bin/storm /usr/bin/storm
@@ -26,7 +22,7 @@ ADD conf/storm.yaml.template $STORM_HOME/conf/storm.yaml.template
 
 # Add scripts required to run storm daemons under supervision
 ADD entrypoint.sh /home/storm/entrypoint.sh
-ADD supervisor/storm-daemon.conf /home/storm/storm-daemon.conf
+ADD storm-daemon.conf /home/storm/storm-daemon.conf
 
 RUN chown -R storm:storm $STORM_HOME && chmod u+x /home/storm/entrypoint.sh
 
